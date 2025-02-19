@@ -9,7 +9,7 @@ import (
 )
 
 func Run(ctx context.Context, cfg config.Config) error {
-	pool, err := postgres.NewPostgres(ctx, cfg.PG.URL)
+	pool, err := postgres.NewPostgres(ctx, cfg.PG)
 	if err != nil {
 		return err
 	}
