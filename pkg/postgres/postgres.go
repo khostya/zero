@@ -16,15 +16,24 @@ type Postgres struct {
 }
 
 func NewPostgres(ctx context.Context, cfg config.PG) (*Postgres, error) {
-	sqlDB, err := sql.Open("postgres", cfg.URL)
+	pg, err := NewDefaultPostgres(ctx, cfg.URL)
 	if err != nil {
 		return nil, err
 	}
 
-	sqlDB.SetMaxOpenConns(cfg.MaxOpenConns)
-	sqlDB.SetMaxIdleConns(cfg.MaxIdleConns)
-	sqlDB.SetConnMaxIdleTime(cfg.ConnMaxIdleTime)
-	sqlDB.SetConnMaxLifetime(cfg.ConnMaxLifetime)
+	pg.sql.SetMaxOpenConns(cfg.MaxOpenConns)
+	pg.sql.SetMaxIdleConns(cfg.MaxIdleConns)
+	pg.sql.SetConnMaxIdleTime(cfg.ConnMaxIdleTime)
+	pg.sql.SetConnMaxLifetime(cfg.ConnMaxLifetime)
+
+	return pg, nil
+}
+
+func NewDefaultPostgres(ctx context.Context, url string) (*Postgres, error) {
+	sqlDB, err := sql.Open("postgres", url)
+	if err != nil {
+		return nil, err
+	}
 
 	db := reform.NewDB(sqlDB, postgresql.Dialect, reform.NewPrintfLogger(log.Printf))
 	return &Postgres{db: db, sql: sqlDB}, nil
