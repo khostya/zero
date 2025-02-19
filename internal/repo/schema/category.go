@@ -11,7 +11,7 @@ func NewNewsCategory(newsCategory *domain.NewsCategory) *pgmodel.NewsCategory {
 	}
 
 	return &pgmodel.NewsCategory{
-		NewsID:     int32(newsCategory.NewsID),
-		CategoryID: int32(newsCategory.CategoryID),
+		NewsID:     newsCategory.NewsID,
+		CategoryID: newsCategory.CategoryID,
 	}
 }

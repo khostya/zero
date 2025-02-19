@@ -11,7 +11,7 @@ func NewNews(news *domain.News) *pgmodel.News {
 	}
 
 	return &pgmodel.News{
-		ID:      int32(news.ID),
+		ID:      news.ID,
 		Title:   news.Title,
 		Content: news.Content,
 	}
