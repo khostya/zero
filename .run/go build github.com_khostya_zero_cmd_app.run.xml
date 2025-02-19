@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build github.com/khostya/zero/cmd/app" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+    <module name="zero-agnecy" />
+    <working_directory value="$PROJECT_DIR$" />
+    <envs>
+      <env name="PG_URL" value="postgres://user:password@localhost:5432/postgres?sslmode=disable" />
+    </envs>
+    <kind value="PACKAGE" />
+    <package value="github.com/khostya/zero/cmd/app" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/cmd/app/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

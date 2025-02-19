@@ -1,0 +1,62 @@
+services:
+  server:
+    container_name: server
+    environment:
+      PG_URL: ${PG_URL}/postgres?sslmode=disable
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - migrate
+    networks:
+      - backend
+      - postgres
+
+  migrate:
+    container_name: migrate-server
+    build:
+      context: .
+      dockerfile: ./build/migrations.Dockerfile
+    restart: "on-failure"
+    depends_on:
+      - postgres
+    command: [ "goose", "-dir", "./migrations", "postgres", "${PG_URL}/postgres?sslmode=disable", "up" ]
+    networks:
+      - postgres
+    volumes:
+      - ./migrations:/migrations
+
+  postgres:
+    image: postgres:15.1
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    container_name: postgres
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d effective"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    name: postgres
+  backend:
+    name: backend

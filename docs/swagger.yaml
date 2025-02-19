@@ -1,0 +1,94 @@
+basePath: /
+definitions:
+  domain.News:
+    properties:
+      Content:
+        type: string
+      Id:
+        type: integer
+      categories:
+        items:
+          type: integer
+        type: array
+      title:
+        type: string
+    type: object
+  http.ListNews:
+    properties:
+      News:
+        items:
+          $ref: '#/definitions/domain.News'
+        type: array
+      Success:
+        type: boolean
+    type: object
+  http.PostNews:
+    properties:
+      categories:
+        items:
+          type: integer
+        type: array
+      content:
+        type: string
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  termsOfService: http://swagger.io/terms/
+  title: zero
+  version: "1.0"
+paths:
+  /edit/{id}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Post News
+        in: body
+        name: news
+        required: true
+        schema:
+          $ref: '#/definitions/http.PostNews'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.PostNews'
+      tags:
+      - news
+  /list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: page
+        format: uint32
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: size
+        format: uint32
+        in: query
+        name: size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.ListNews'
+      tags:
+      - news
+swagger: "2.0"

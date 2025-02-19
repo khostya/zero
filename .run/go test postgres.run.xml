@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go test postgres" type="GoTestRunConfiguration" factoryName="Go Test">
+    <module name="zero-agnecy" />
+    <working_directory value="$PROJECT_DIR$/tests/postgres" />
+    <useCustomBuildTags value="true" />
+    <envs>
+      <env name="TEST_DATABASE_URL" value="postgres://user:password@localhost:5432/postgres?sslmode=disable" />
+    </envs>
+    <root_directory value="$PROJECT_DIR$" />
+    <kind value="PACKAGE" />
+    <package value="github.com/khostya/zero/tests/postgres" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$" />
+    <framework value="gotest" />
+    <method v="2" />
+  </configuration>
+</component>
